@@ -14,18 +14,18 @@ dist = st.number_input("Enter number of districts", min_value=1, value=30, step=
 if st.button("Calculate"):
     results = []
 
-    for MoE in range(1, 6):  # MoE from 1% to 5%
+       for MoE in range(1, 6):  # MoE from 1% to 5%
         MoE_prop = MoE / 100
         base_sample = ((1.96 * 0.5) / MoE_prop) ** 2
 
         sample_state = round(base_sample)
-        duration_state = round(sample_state / agents / cfperagent)
+        duration_state = math.ceil(sample_state / agents / cfperagent)
 
         sample_ac = round(base_sample * ac)
-        duration_ac = round(sample_ac / agents / cfperagent)
+        duration_ac = math.ceil(sample_ac / agents / cfperagent)
 
         sample_dist = round(base_sample * dist)
-        duration_dist = round(sample_dist / agents / cfperagent)
+        duration_dist = math.ceil(sample_dist / agents / cfperagent)
 
         results.append({
             "MoE": f"{MoE}%",

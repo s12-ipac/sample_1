@@ -5,8 +5,8 @@ st.set_page_config(page_title="Duration Calculator", layout="centered")
 st.title("Calling Plan Calculator")
 
 # Input fields
-agents = st.number_input("Enter number of agents", min_value=1, value=10, step=1, format="%d",value=100)
-cfperagent = st.number_input("Enter avg cf per agent per day", min_value=1, value=100, step=1, format="%d", value=12)
+agents = st.number_input("Enter number of agents", min_value=1, value=100, step=1, format="%d")
+cfperagent = st.number_input("Enter avg cf per agent per day", min_value=1, value=12, step=1, format="%d")
 ac = st.number_input("Enter number of ACs", min_value=1, value=100, step=1, format="%d")
 dist = st.number_input("Enter number of districts", min_value=1, value=30, step=1, format="%d")
 

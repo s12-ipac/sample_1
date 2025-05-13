@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import math  # Added to use math.ceil
 
 st.set_page_config(page_title="Duration Calculator", layout="centered")
 st.title("📞 Calling Plan Calculator")
@@ -14,18 +15,18 @@ dist = st.number_input("Enter number of districts", min_value=1, value=30, step=
 if st.button("Calculate"):
     results = []
 
-       for MoE in range(1, 6):  # MoE from 1% to 5%
-            MoE_prop = MoE / 100
-            base_sample = ((1.96 * 0.5) / MoE_prop) ** 2
+    for MoE in range(1, 6):  # MoE from 1% to 5%
+        MoE_prop = MoE / 100
+        base_sample = ((1.96 * 0.5) / MoE_prop) ** 2
 
-            sample_state = round(base_sample)
-            duration_state = math.ceil(sample_state / agents / cfperagent)
+        sample_state = round(base_sample)
+        duration_state = math.ceil(sample_state / agents / cfperagent)
 
-            sample_ac = round(base_sample * ac)
-            duration_ac = math.ceil(sample_ac / agents / cfperagent)
+        sample_ac = round(base_sample * ac)
+        duration_ac = math.ceil(sample_ac / agents / cfperagent)
 
-            sample_dist = round(base_sample * dist)
-            duration_dist = math.ceil(sample_dist / agents / cfperagent)
+        sample_dist = round(base_sample * dist)
+        duration_dist = math.ceil(sample_dist / agents / cfperagent)
 
         results.append({
             "MoE": f"{MoE}%",

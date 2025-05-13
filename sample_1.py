@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Duration Calculator", layout="centered")
-st.title("Calling Plan Calculator")
+st.title("📞 Calling Plan Calculator")
 
 # Input fields
 agents = st.number_input("Enter number of agents", min_value=1, value=100, step=1, format="%d")
@@ -39,10 +39,18 @@ if st.button("Calculate"):
 
     df = pd.DataFrame(results)
 
-    st.subheader("Calling Plan")
+    st.subheader("📋 Calling Plan")
 
-    # Beautify the table with commas and styling
-    st.dataframe(
+    # Custom styling functions
+    def highlight_moe(val):
+        return "background-color: #ffe599"  # Light yellow for MoE column
+
+    def header_style():
+        return [
+            {'selector': 'thead th', 'props': [('background-color', '#d9ead3'), ('color', 'black')]}
+        ]
+
+    styled_df = (
         df.style
         .format({
             "Sample - State Level": "{:,}",
@@ -52,14 +60,8 @@ if st.button("Calculate"):
             "Sample - District Level": "{:,}",
             "Duration - District Level": "{:,}"
         })
-        .applymap(
-            lambda x: "background-color: lightgreen"
-            if isinstance(x, (int, float)) and x > 100
-            else "",
-            subset=[
-                "Duration - State Level",
-                "Duration - AC Level",
-                "Duration - District Level"
-            ]
-        )
+        .applymap(highlight_moe, subset=["MoE"])
+        .set_table_styles(header_style())
     )
+
+    st.dataframe(styled_df, use_container_width=True)

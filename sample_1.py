@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Sample Duration Calculator", layout="centered")
-st.title("📊 Sample Size & Duration for MoE (1% to 5%)")
+st.set_page_config(page_title="Duration Calculator", layout="centered")
+st.title("Calling Plan Calculator")
 
 # Input fields
 agents = st.number_input("Enter number of agents", min_value=1, value=10, step=1, format="%d",value=100)
@@ -39,7 +39,7 @@ if st.button("Calculate"):
 
     df = pd.DataFrame(results)
 
-    st.subheader("📋 Results Table")
+    st.subheader("Calling Plan")
 
     # Beautify the table with commas and styling
     st.dataframe(

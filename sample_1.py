@@ -39,7 +39,7 @@ if st.button("Calculate"):
 
     df = pd.DataFrame(results)
 
-    st.subheader("📋 Calling Plan")
+    st.subheader("📋 Result")
 
     # Custom styling functions
     def highlight_moe(val):

@@ -1,24 +1,20 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May 13 14:51:23 2025
-@author: ipac survey
-"""
-
 import streamlit as st
+import pandas as pd
 
-st.set_page_config(page_title="Simple Calculator", layout="centered")
-st.title("📱 Sample Size & Duration Calculator")
+st.set_page_config(page_title="Sample Duration Calculator", layout="centered")
+st.title("📊 Sample Size & Duration for MoE (1% to 5%)")
 
-# Input fields
-MoE = st.number_input("Enter Margin of Error (%)", value=5.0)
-agents = st.number_input("Enter number of agents")
-cfperagent = st.number_input("Enter cf per agent")
-ac = st.number_input("Enter number of ACs")
-dist = st.number_input("Enter number of districts")
+# Integer input fields
+agents = st.number_input("Enter number of agents", min_value=1, value=10, step=1, format="%d")
+cfperagent = st.number_input("Enter calls per agent per day", min_value=1, value=100, step=1, format="%d")
+ac = st.number_input("Enter number of ACs", min_value=1, value=100, step=1, format="%d")
+dist = st.number_input("Enter number of districts", min_value=1, value=30, step=1, format="%d")
 
-# Calculation
+# When "Calculate" is pressed
 if st.button("Calculate"):
-    try:
+    results = []
+
+    for MoE in range(1, 6):  # 1 to 5
         MoE_prop = MoE / 100
         base_sample = ((1.96 * 0.5) / MoE_prop) ** 2
 
@@ -31,13 +27,23 @@ if st.button("Calculate"):
         sample_dist = round(base_sample * dist)
         duration_dist = round(sample_dist / agents / cfperagent, 2)
 
-        st.subheader("📈 Results")
-        st.markdown(f"**Total Sample (State):** {sample_state}")
-        st.markdown(f"**Estimated Duration (State Level):** {duration_state} days")
-        st.markdown(f"**Total Sample (All ACs):** {sample_ac}")
-        st.markdown(f"**Estimated Duration (AC Level Total):** {duration_ac} days")
-        st.markdown(f"**Total Sample (All Districts):** {sample_dist}")
-        st.markdown(f"**Estimated Duration (District Level Total):** {duration_dist} days")
+        results.append({
+            "MoE (%)": MoE,
+            "State Sample": sample_state,
+            "State Duration (days)": duration_state,
+            "AC Sample": sample_ac,
+            "AC Duration (days)": duration_ac,
+            "District Sample": sample_dist,
+            "District Duration (days)": duration_dist
+        })
 
-    except ZeroDivisionError:
-        st.error("❌ Make sure Margin of Error, agents, and cf per agent are not zero.")
+    df = pd.DataFrame(results)
+    st.subheader("📋 Results Table")
+    st.dataframe(df.style.format({
+        "State Sample": "{:,}",
+        "AC Sample": "{:,}",
+        "District Sample": "{:,}",
+        "State Duration (days)": "{:.2f}",
+        "AC Duration (days)": "{:.2f}",
+        "District Duration (days)": "{:.2f}"
+    }))

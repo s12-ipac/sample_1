@@ -17,15 +17,7 @@ cfperagent = st.number_input("Enter cf per agent")
 ac = st.number_input("Enter number of acs")
 dist = st.number_input("Enter number of districts")
 agents = st.number_input("Enter number of agents")
-operation = st.selectbox("Select operation", ["Add", "Subtract", "Multiply", "Divide"])
-#def calculation(x,agents,cfperagent):
-sample=(1.96*0.5/MoE)^2
-duration_state=sample/agents/cfperagent
-sample_ac=(1.96*0.5/MoE)^2*ac
-duration_ac=sample_ac/agents/cfperagent
-sample_dist=(1.96*0.5/MoE)^2*dist
-duration_dist=sample_dist/agents/cfperagent
-    
+
 
 if st.button("Calculate"):
     try:
